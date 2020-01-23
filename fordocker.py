@@ -1,4 +1,4 @@
-from flask import Flask, escape, request, jsonify, send_file
+from flask import Flask, escape, request, jsonify, send_file, render_template
 from flask_cors import CORS, cross_origin
 
 from humanfriendly import format_timespan
@@ -45,7 +45,7 @@ def freqs():
 @app.route('/about')
 @cross_origin()
 def about_us():
-    return "Hello"
+    return render_template("pages/home.html")
 
 
 @app.route('/about/json')

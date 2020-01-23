@@ -46,6 +46,8 @@ class GovernmentWorker(threading.Thread):
 
         print(self.last_dataframe)
         self.perform_generators()
+        self.dfs = [f for f in listdir(self.dataframes_folder) if isfile(
+            join(self.dataframes_folder, f))]
 
     def save_new_snapshot(self):
         c = twint.Config()
@@ -61,6 +63,8 @@ class GovernmentWorker(threading.Thread):
         os.rename(c.Output, join(self.dataframes_folder, name))
 
         self.last_dataframe = name
+        self.dfs = [f for f in listdir(self.dataframes_folder) if isfile(
+            join(self.dataframes_folder, f))]
 
     def perform_generators(self):
         dataframe_filename = join(self.dataframes_folder, self.last_dataframe)
@@ -76,6 +80,14 @@ class GovernmentWorker(threading.Thread):
 
     def last_update(self):
         return datetime.datetime.strptime(self.last_dataframe, "%d-%m-%Y_%H:%M.csv")
+
+    def available_dataframes(self):
+        return self.dfs
+
+    def path_of_dataframe(self, df):
+        if not df in self.dfs:
+            return ""
+        return join(self.dataframes_folder, df)
 
     def run(self):
         asyncio.set_event_loop(self.loop)

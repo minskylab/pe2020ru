@@ -1,6 +1,7 @@
 from flask import Flask, escape, request, jsonify, send_file
 from flask_cors import CORS, cross_origin
 
+from humanfriendly import format_timespan
 import worker
 import threading
 import asyncio
@@ -21,6 +22,11 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 stopFlag = threading.Event()
 loop = asyncio.new_event_loop()
 
+config = {
+    "query_search": search,
+    "since_date": since,
+    "time_interval": format_timespan(interval)
+}
 
 gw = worker.GovernmentWorker(
     stopFlag, loop, workspace="/data", search=search, since=since, interval_s=interval)
@@ -39,10 +45,16 @@ def freqs():
 @app.route('/about')
 @cross_origin()
 def about_us():
+    return "Hello"
+
+
+@app.route('/about/json')
+@cross_origin()
+def about_us_json():
     result = {}
     result["description"] = about.description
     result["about"] = about.about
-    result["scraping_interval"] = about.scrapingtime
+    result["config"] = config
     result["endpoints"] = about.endpoints
     result["endpoints"]["dataframes"] = [
         f"/dataframe/{df}" for df in gw.available_dataframes()]

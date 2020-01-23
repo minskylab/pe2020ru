@@ -13,11 +13,14 @@ import threading
 
 import time
 
+import asyncio
+
 
 class GovernmentWorker(threading.Thread):
-    def __init__(self, event, workspace=".", search="Elecciones2020", since="2019-10-01"):
+    def __init__(self, event, loop, workspace=".", search="Elecciones2020", since="2019-10-01"):
         threading.Thread.__init__(self)
 
+        self.loop = loop
         self.stopped = event
         self.workspace = workspace
         self.pics_folder = join(self.workspace, "pics")
@@ -71,6 +74,7 @@ class GovernmentWorker(threading.Thread):
         drawer.draw_word_cloud(text, filename=draw_filename)
 
     def run(self):
+        asyncio.set_event_loop(self.loop)
         while not self.stopped.wait(10*60):
             print("executing snapshot")
             self.save_new_snapshot()

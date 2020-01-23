@@ -2,14 +2,21 @@ from flask import Flask, escape, request, jsonify
 import worker
 import threading
 import asyncio
+import os
+
+port = os.environ.get("PORT", "8080")
+search = os.environ.get("SEARCH_QUERY", "Elecciones2020")
+since = os.environ.get("SINCE_DATE", "2019-10-01")
+
 
 app = Flask(__name__)
-
 
 stopFlag = threading.Event()
 loop = asyncio.new_event_loop()
 
-sw = worker.GovernmentWorker(stopFlag, loop)
+
+sw = worker.GovernmentWorker(
+    stopFlag, loop, workspace="/data", search=search, since=since)
 
 
 @app.route('/freqs')
@@ -20,4 +27,5 @@ def freqs():
 
 
 sw.start()
-app.run(host="0.0.0.0", port=8080)
+
+app.run(host="0.0.0.0", port=port)

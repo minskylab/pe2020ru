@@ -9,15 +9,24 @@ import extractor
 import counter
 import drawer
 
+import threading
 
-class StateWorker:
-    def __init__(self, workspace=".", search="Elecciones Peru 2020", since="2019-10-01"):
+import time
+
+
+class GovernmentWorker(threading.Thread):
+    def __init__(self, event, workspace=".", search="Elecciones2020", since="2019-10-01"):
+        threading.Thread.__init__(self)
+
+        self.stopped = event
         self.workspace = workspace
         self.pics_folder = join(self.workspace, "pics")
         self.dataframes_folder = join(self.workspace, "dataframes")
 
         self.search = search
         self.since = since
+
+        self.freqs = []
 
         pathlib.Path(self.pics_folder).mkdir(exist_ok=True)
         pathlib.Path(self.dataframes_folder).mkdir(exist_ok=True)
@@ -33,7 +42,7 @@ class StateWorker:
         else:
             self.save_new_snapshot()
 
-        self.freqs = []
+        self.perform_generators()
 
     def save_new_snapshot(self):
         c = twint.Config()
@@ -59,5 +68,10 @@ class StateWorker:
 
         self.freqs = counter.freq_str(text, minimal_counts=2)
 
-        drawer.draw_word_cloud(text, with_download=True,
-                               filename=draw_filename)
+        drawer.draw_word_cloud(text, filename=draw_filename)
+
+    def run(self):
+        while not self.stopped.wait(10*60):
+            print("executing snapshot")
+            self.save_new_snapshot()
+            self.perform_generators()

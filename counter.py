@@ -23,6 +23,6 @@ def freq_str(text: str, minimal_counts=1) -> list:
 
     freqs = [f for f in freqs if f[0] >= minimal_counts]
 
-    freqs.sort(key=lambda f: f[0])
+    freqs.sort(key=lambda f: f[0], reverse=True)
 
     return freqs

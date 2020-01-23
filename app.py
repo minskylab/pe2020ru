@@ -18,8 +18,10 @@ sw = worker.GovernmentWorker(stopFlag, loop)
 @app.route('/freqs')
 @cross_origin()
 def freqs():
-    result = {"data": [{"text": freq[1], "value": freq[0]}
-                       for freq in sw.freqs]}
+    data = [{"text": freq[1], "value": freq[0]} for freq in sw.freqs]
+    result = {}
+    result["data"] = data
+    result["last_update"] = sw.last_update()
     return jsonify(result)
 
 

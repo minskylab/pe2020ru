@@ -75,6 +75,9 @@ class GovernmentWorker(threading.Thread):
 
         drawer.draw_word_cloud(text, filename=draw_filename)
 
+    def last_update(self):
+        return datetime.datetime.strptime(self.last_dataframe, "%d-%m-%Y_%H:%M.csv")
+
     def run(self):
         asyncio.set_event_loop(self.loop)
         self.save_new_snapshot()

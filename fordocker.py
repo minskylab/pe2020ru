@@ -7,7 +7,8 @@ import os
 port = os.environ.get("PORT", "8080")
 search = os.environ.get("SEARCH_QUERY", "Elecciones2020")
 since = os.environ.get("SINCE_DATE", "2019-10-01")
-
+interval = os.environ.get("INTERVAL_TIME", 1800)
+interval = int(interval)
 
 app = Flask(__name__)
 
@@ -16,7 +17,7 @@ loop = asyncio.new_event_loop()
 
 
 sw = worker.GovernmentWorker(
-    stopFlag, loop, workspace="/data", search=search, since=since)
+    stopFlag, loop, workspace="/data", search=search, since=since, interval_s=interval)
 
 
 @app.route('/freqs')

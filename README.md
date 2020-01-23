@@ -29,15 +29,15 @@ $ curl https://peru2020scrapper.minsky.cc/last-dataframe
 
 ```json
 {
-	"data": [
-     "/dataframe/23-01-2020_16:46.csv",
-     "/dataframe/23-01-2020_08:57.csv",
-     "/dataframe/23-01-2020_11:47.csv",
-     ...
-     "/dataframe/23-01-2020_07:20.csv",
-     "/dataframe/23-01-2020_19:07.csv",
-     "/dataframe/23-01-2020_10:05.csv"
-	]
+  "data": [
+    "/dataframe/23-01-2020_16:46.csv",
+    "/dataframe/23-01-2020_08:57.csv",
+    "/dataframe/23-01-2020_11:47.csv",
+    ...
+    "/dataframe/23-01-2020_07:20.csv",
+    "/dataframe/23-01-2020_19:07.csv",
+    "/dataframe/23-01-2020_10:05.csv"
+  ]
 }
 ```
 
@@ -51,9 +51,9 @@ $ curl https://peru2020scrapper.minsky.cc/last-dataframe
 
 ```json
 {
-	"data": [
-     "/dataframe/23-01-2020_16:46.csv"
-	]
+  "data": [
+    "/dataframe/23-01-2020_16:46.csv"
+  ]
 }
 ```
 

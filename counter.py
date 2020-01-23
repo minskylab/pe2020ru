@@ -23,6 +23,10 @@ def freq_str(text: str, minimal_counts=1) -> list:
 
     freqs = [f for f in freqs if f[0] >= minimal_counts]
 
+    freqs = [f for f in freqs if f[1] != ""]
+
+    freqs = [f for f in freqs if not f[1].startsend("#")]
+
     freqs.sort(key=lambda f: f[0], reverse=True)
 
     return freqs

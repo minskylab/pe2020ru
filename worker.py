@@ -10,9 +10,7 @@ import counter
 import drawer
 
 import threading
-
 import time
-
 import asyncio
 
 
@@ -66,8 +64,9 @@ class GovernmentWorker(threading.Thread):
 
     def perform_generators(self):
         dataframe_filename = join(self.dataframes_folder, self.last_dataframe)
-        draw_filename = join(
-            self.pics_folder, self.last_dataframe.replace(".csv", ".png"))
+
+        pic = self.last_dataframe.replace(".csv", ".png")
+        draw_filename = join(self.pics_folder, pic)
 
         text = extractor.extract_tweets_from_csv(dataframe_filename)
 

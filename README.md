@@ -1,6 +1,6 @@
 # Peru 2020 Scrapper
 
-Pero2020Scrapper es un programa que extrae tweets relacionados a las [Elecciones Congresales Extraordinarias 2020 del Peru]([https://www.wikiwand.com/es/Elecciones_congresales_extraordinarias_de_Per%C3%BA_de_2020](https://www.wikiwand.com/es/Elecciones_congresales_extraordinarias_de_Perú_de_2020)) cada 30 minutos y pone los resultados a disposición de la comunidad en las siguientes presentaciones:
+Peru2020Scrapper es un programa que extrae tweets relacionados a las [Elecciones Congresales Extraordinarias 2020 del Peru]([https://www.wikiwand.com/es/Elecciones_congresales_extraordinarias_de_Per%C3%BA_de_2020](https://www.wikiwand.com/es/Elecciones_congresales_extraordinarias_de_Perú_de_2020)) cada 30 minutos y pone los resultados a disposición de la comunidad en las siguientes presentaciones:
 
 1. **Dataframes como CSV** (casos de uso: pandas con python, cualquier programa que acepte CSVs)
 2. **Pequeña API REST** (casos de uso: uso directo en clientes, [ejemplo](https://peru2020.minsky.cc/))
@@ -96,5 +96,56 @@ Name: tweet, Length: 3212, dtype: object
 
 Todo suyo, intenten usar los algoritmos modernos de NLP y Sentiment Analisis para sacar insights de esto.
 
+## Uso del API HTTP
+
+#### Frecuencia de palabras
+
+Peru2020Scrapper hace un conteo de frecuencia de las palabras de todos los tweets en el último dataframe scrapeado. El endpoint para acceder a estos resultados es [https://peru2020scrapper.minsky.cc/freqs](https://peru2020scrapper.minsky.cc/freqs).
+
+Ejemplo de uso
+
+```shell 
+$ curl https://peru2020scrapper.minsky.cc/freqs
+```
+
+```json
+{
+  "data": [
+    {
+      "text": "candidatos",
+      "value": 347
+    },
+    {
+      "text": "congreso",
+      "value": 341
+    },
+    {
+      "text": "elecciones",
+      "value": 293
+    },
+    {
+      "text": "voto",
+      "value": 271
+    },
+    {
+      "text": "partido",
+      "value": 250
+    },
+    ...
+    {
+      "text": "atenta",
+      "value": 2
+    },
+    {
+      "text": "logra",
+      "value": 2
+    }
+  ]
+}
+```
 
 
+
+Un uso directo de este endpoint se puede ver en [https://peru2020.minsky.cc/](https://peru2020.minsky.cc/) que realiza una [nube de palabaras](https://www.wikiwand.com/en/Tag_cloud) con los terminos más usados en los tweets sobre las elecciones congresales. Abajo puedes ver una captura de pantalla de este programa.
+
+![image-20200123155644252](peru2020.png)

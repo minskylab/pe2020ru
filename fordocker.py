@@ -70,6 +70,22 @@ def dataframe(name):
     return send_file(gw.path_of_dataframe(name))
 
 
+@app.route('/dataframes')
+@cross_origin()
+def dataframes():
+    result = {}
+    result["data"] = gw.available_dataframes()
+    return jsonify(result)
+
+
+@app.route('/last-dataframe')
+@cross_origin()
+def lastdataframe():
+    result = {}
+    result["data"] = gw.last_dataframe
+    return jsonify(result)
+
+
 gw.start()
 
 app.run(host="0.0.0.0", port=port)

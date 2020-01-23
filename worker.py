@@ -17,7 +17,7 @@ import asyncio
 
 
 class GovernmentWorker(threading.Thread):
-    def __init__(self, event, loop, workspace=".", search="Elecciones2020", since="2019-10-01"):
+    def __init__(self, event, loop, workspace=".", search="Elecciones2020", since="2019-10-01", interval_s=30*60):
         threading.Thread.__init__(self)
 
         self.loop = loop
@@ -29,6 +29,7 @@ class GovernmentWorker(threading.Thread):
         self.search = search
         self.since = since
 
+        self.interval_time = interval_s
         self.freqs = []
 
         pathlib.Path(self.pics_folder).mkdir(exist_ok=True)
@@ -45,6 +46,7 @@ class GovernmentWorker(threading.Thread):
         else:
             self.save_new_snapshot()
 
+        print(self.last_dataframe)
         self.perform_generators()
 
     def save_new_snapshot(self):
@@ -75,7 +77,8 @@ class GovernmentWorker(threading.Thread):
 
     def run(self):
         asyncio.set_event_loop(self.loop)
-        while not self.stopped.wait(10*60):
+        self.save_new_snapshot()
+        while not self.stopped.wait(self.interval_time):
             print("executing snapshot")
             self.save_new_snapshot()
             self.perform_generators()

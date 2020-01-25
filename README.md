@@ -24,7 +24,7 @@ Para listar todos los dataframes disponibles usa [https://peru2020scrapper.minsk
 Ejemplo
 
 ```shell 
-$ curl https://peru2020scrapper.minsky.cc/last-dataframe
+$ curl https://peru2020scrapper.minsky.cc/dataframes
 ```
 
 ```json

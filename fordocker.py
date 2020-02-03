@@ -9,6 +9,7 @@ import os
 
 import about
 
+scrapingTaskActive = os.environ.get("SCRAPING_TASK_ACTIVE", False)
 port = os.environ.get("PORT", "8080")
 search = os.environ.get("SEARCH_QUERY", "Elecciones2020")
 since = os.environ.get("SINCE_DATE", "2019-10-01")
@@ -23,6 +24,7 @@ stopFlag = threading.Event()
 loop = asyncio.new_event_loop()
 
 config = {
+    "scraping_task_active": scrapingTaskActive,
     "query_search": search,
     "since_date": since,
     "time_interval": format_timespan(interval)
@@ -86,6 +88,7 @@ def lastdataframe():
     return jsonify(result)
 
 
-gw.start()
+if scrapingTaskActive:
+    gw.start()
 
 app.run(host="0.0.0.0", port=port)
